@@ -13,22 +13,23 @@ export const fetchNotes = async ({
   search,
   tag
 }: FetchNotesParams & { tag?: string }): Promise<FetchNotesResponse> => {
-  const params: { page: number; perPage: number; search?: string; tag?: string } = {
+  const params: any = {
     page,
-    perPage,
+    perPage
   };
 
   if (search) params.search = search;
   if (tag && tag !== 'All') params.tag = tag;
 
-  const response = await axios.get('/notes', { params });
+  
+  const response = await axios.get<{ notes: Note[]; totalPages: number }>('/notes', { params });
   
   return {
     page,
     perPage,
     data: response.data.notes,
     totalPages: response.data.totalPages,
-    total: response.data.total
+    total: response.data.notes.length
   };
 };
 
