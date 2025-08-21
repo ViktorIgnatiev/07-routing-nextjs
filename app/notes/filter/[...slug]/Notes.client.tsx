@@ -29,13 +29,12 @@ export default function NotesClient({ initialTag }: { initialTag?: string }) {
     refetch,
   } = useQuery({
     queryKey: ['notes', page, debouncedSearchTerm, currentTag],
-    queryFn: () =>
-      fetchNotes({
-        page,
-        perPage: 12,
-        search: debouncedSearchTerm,
-        tag: currentTag === 'All' ? undefined : currentTag,
-      }),
+    queryFn: () => fetchNotes({
+    page,
+    perPage: 12,
+    search: debouncedSearchTerm,
+    tag: currentTag === 'All' ? undefined : currentTag,
+  }),
     placeholderData: (previousData) => previousData,
   });
 
@@ -65,7 +64,7 @@ export default function NotesClient({ initialTag }: { initialTag?: string }) {
     return <p>Could not fetch the list of notes. {error.message}</p>;
   }
 
-  const hasNotes: boolean = !!data?.data?.length;
+  const hasNotes: boolean = !!data?.notes?.length;
   const totalPages: number = data?.totalPages ?? 1;
 
   return (
@@ -86,7 +85,7 @@ export default function NotesClient({ initialTag }: { initialTag?: string }) {
 
       <main className={css.main}>
         {hasNotes ? (
-          <NoteList notes={data!.data || []} onNoteDeleted={refetch} />
+          <NoteList notes={data!.notes || []} onNoteDeleted={refetch} />
         ) : (
           <p>No notes found. Create your first note!</p>
         )}

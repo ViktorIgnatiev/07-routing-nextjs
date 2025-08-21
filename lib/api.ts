@@ -27,9 +27,8 @@ export const fetchNotes = async ({
   return {
     page,
     perPage,
-    data: response.data.notes,
+    notes: response.data.notes,
     totalPages: response.data.totalPages,
-    total: response.data.notes.length
   };
 };
 
